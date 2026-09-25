@@ -4,54 +4,27 @@
 
 **When someone enters the price of a non-essential purchase, how often they expect to use it, how long they have wanted it, and how much flexible money they have left, the experience should recommend whether to buy it, wait, or skip it—and explain why.**
 
-The target user is a student or young adult who wants a quick pause before making an impulse purchase. The project is deliberately small: it tests one main interaction rather than trying to become a complete budgeting app.
+The target user is a student or young adult who wants a quick pause before making an impulse purchase. 
 
 ## How to open it
 
-No installation, account, or API key is required.
-
-1. Download or clone this repository.
-2. Open `dist/index.html` in a modern browser.
-3. Change the sample item, price, optional-spending budget, expected use, and waiting time.
-4. Select **Check this purchase** to receive an explained result.
-
-## Decision logic
-
-The tool compares four signals:
-
-- the percentage of the user's flexible monthly budget the item would consume;
-- expected uses per month;
-- how long the user has already wanted the item; and
-- estimated cost per use across six months.
-
-It returns **BUY**, **WAIT**, or **SKIP**. A price above the available optional-spending budget always produces **SKIP**. Other cases use a small point system, so a frequent-use item that has survived a waiting period scores more strongly than an expensive item discovered today.
-
-This is a reflection tool, not financial advice. The explanation is intentionally visible so the user can disagree with the recommendation rather than treating the score as objective truth.
+1. Change the sample item, price, optional-spending budget, expected use, and waiting time.
+2. Select “Check this purchase“ to receive an explained result.
 
 ## AI tool and selected prompts
 
-I used **ChatGPT/Codex** as a design and coding partner. Important prompts and decisions included:
+I used Codex as a design and coding partner. Important prompts and decisions included:
 
-> “I want a practical small interactive experience similar in scope to our classroom exercise, but not another abstract or relaxing interaction.”
+“When someone enter the non-essential products they want, the experience should tell them whether buy/not buy/wait".
 
-> “Build a browser-based ‘Should I Buy It?’ tool based on price, expected use, waiting time, and the user’s remaining optional-spending budget. Keep it to one main interaction and explain the result.”
+“Build ‘Should I Buy It?’ tool based on price, expected use, waiting time, and the user’s remaining optional-spending budget. Keep it to one main interaction and explain the result.”
 
-> “Make the result feel like a decision receipt. Do not hide the reasoning behind a single score.”
+“Make the result feel like a decision receipt. Do not hide the reasoning behind a single score.”
 
-AI helped turn the idea into HTML, CSS, JavaScript, and an initial scoring model. I still had to decide which questions were useful, which factors should have more weight, and whether the result should be framed as a command or as a prompt for reflection.
-
-## Testing notes
-
-Initial checks cover three deliberately different cases:
-
-1. **Frequent, affordable, considered purchase:** price is a small part of the available budget, expected use is high, and the user has waited several weeks. Expected result: **BUY**.
-2. **Possible but uncertain purchase:** price uses a noticeable part of the budget, expected use is moderate, or the waiting period is short. Expected result: **WAIT**.
-3. **Unaffordable purchase:** price is higher than the user's remaining optional-spending budget. Expected result: **SKIP**, regardless of expected use.
-
-The interface should also be tested at phone width, with keyboard-only input, with very large prices, and with singular values such as one use per month or one waiting day.
+AI helped turn the idea into HTML, CSS, JavaScript, and an initial scoring model. I still had to give my own ideas, decide which questions were useful, which factors should have more weight, and whether the result should be framed as a command or as a prompt for reflection.
 
 ## Reflection draft
 
-The first version matches my intention because it interrupts a fast purchasing decision with four concrete questions and returns more than a yes-or-no answer. The “decision receipt” makes the cost visible as both a percentage of the user’s available budget and an estimated cost per use. This was important because a $100 item can be reasonable for one person and unrealistic for another. A remaining uncertainty is that cost per use rewards frequent use but does not measure product quality, necessity, environmental impact, or whether the user’s estimate is realistic.
+Rather than making a program that simply tells me whether or not to buy something, I wanted to create a tool that helps me pause and think before making an impulse purchase. That part worked the way I expected. The user enters the price, how much spending money they have left, how often they think they will use the item, and how long they have wanted it. The page then gives a BUY, WAIT, or SKIP result with an explanation. I tested it with three different purchases. The headphones cost $120, fit within a $300 budget, would be used about 12 times a month, and had already been considered for 14 days, so they received BUY. A desk lamp with lower use and only two days of consideration received WAIT. The limited-edition sneakers cost is nearly equal to the available budget, so they received SKIP. Seeing all three results appear correctly showed me that the main interaction was working. I also decided to show the percentage of the budget used and the estimated cost per use because a result without an explanation felt too random. If an item costs more than the user’s available spending money, the program gives it an automatic SKIP. I made that rule because I do not think frequent use should make an unaffordable purchase look reasonable.
 
-AI was useful for proposing a scoring structure and implementing the responsive interface, but the score still reflects human choices. For example, I chose to make an item that exceeds the optional-spending budget an automatic **SKIP**, while other factors can balance one another. Before submitting, I would test the tool with several purchases I actually considered, record where I disagreed with its result, and revise the thresholds based on those disagreements. The main unresolved question is whether three labels are nuanced enough: **WAIT** currently covers both “save for this” and “you probably do not need this,” which may need clearer language after user testing.
+Testing also showed me where the formula does not match the way I actually think about buying things. Some things are not used very often, but they can still bring a lot of happiness when they are used. The current formula mainly sees low usage as a negative, so it may undervalue this kind of purchase. AI cannot tell from the price and usage numbers how much an experience means to me. I thought about adding a happiness rating, but that did not feel very reliable either. If someone is excited about buying something, they may give it a high rating just to justify the purchase. For now, I left happiness out of the calculation and treated it as a limitation. AI helped me build the interface and create the first scoring system, but the weights were not objective. I still had to decide which rules made sense to me. The score boundaries also need more testing because they may not work the same way for everyone. Another problem is that the program uses six months to calculate cost per use for every purchase. That makes sense for some everyday products, but not for everything. Clothes may last for years, while a concert ticket is only used once and can still be worth the money. If I continue working on the project, I would change the calculation based on the type of purchase instead of judging everything with the same formula.
