@@ -13,7 +13,7 @@ The target user is a student or young adult who wants a quick pause before makin
 
 ## AI tool and selected prompts
 
-I used Codex as a design and coding partner. Important prompts and decisions included:
+I used Codex to help me coding and finishing the program. Important prompts and decisions included:
 
 “When someone enter the non-essential products they want, the experience should tell them whether buy/not buy/wait".
 
